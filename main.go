@@ -43,6 +43,17 @@ func CreateNewUser(w http.ResponseWriter, req *http.Request) {
 	json.NewEncoder(w).Encode(users)
 }
 
+func DeleteUser(w http.ResponseWriter, req *http.Request) {
+	params := mux.Vars(req)
+	for index, item := range users {
+		if item.ID == params["id"] {
+			users = append(users[:index], users[index+1:]...)
+			break
+		}
+	}
+	json.NewEncoder(w).Encode(users)
+}
+
 func main() {
 
 	router := mux.NewRouter()
@@ -52,6 +63,7 @@ func main() {
 	router.HandleFunc("/users", GetUsers).Methods("GET")
 	router.HandleFunc("/user/{id}", GetUserById).Methods("GET")
 	router.HandleFunc("/new-user/{id}", CreateNewUser).Methods("POST")
+	router.HandleFunc("/user/{id}", DeleteUser).Methods("DELETE")
 
 	log.Fatal(http.ListenAndServe(":3000", router))
 
