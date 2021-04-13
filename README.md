@@ -1,2 +1,2 @@
 # go-basic-crud
-Basic CRUD build with Golang
+Basic CRUD built with Golang
